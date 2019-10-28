@@ -150,6 +150,17 @@ namespace Chisel.Core
             return new Plane(normal / magnitude, d / magnitude);
         }
         
+        public static Quaternion GetQuaternion(this Matrix4x4 m) {
+            if (m.GetColumn(2) == m.GetColumn(1)) { return Quaternion.identity; }
+            return Quaternion.LookRotation(m.GetColumn(2), m.GetColumn(1));
+        }
+
+        public static Matrix4x4 Lerp(Matrix4x4 a, Matrix4x4 b, float alpha) {
+            return Matrix4x4.TRS(Vector3.Lerp(a.GetColumn(3),    b.GetColumn(3),    alpha), 
+                             Quaternion.Slerp(a.GetQuaternion(), b.GetQuaternion(), alpha), 
+                                 Vector3.Lerp(a.lossyScale,      b.lossyScale,      alpha));
+        }
+
         // Transforms a plane by this matrix.
         public static Plane InverseTransform(this Matrix4x4 matrix, Plane plane)
         {

@@ -24,15 +24,18 @@ namespace Chisel.Editors
 
         static readonly GUIContent  kShapeContent   = new GUIContent("Shape");
         static readonly GUIContent  kPathContent    = new GUIContent("Path");
+        static readonly GUIContent  kCurveExtContent= new GUIContent("Curvy Extrusion");
 
         SerializedProperty controlPointsProp;
         SerializedProperty pathSegmentsProp;
+        SerializedProperty curvyExtrusionProp;
         SerializedProperty surfacesProp;
 
         protected override void ResetInspector()
         {
             controlPointsProp   = null;
             pathSegmentsProp    = null;
+            curvyExtrusionProp  = null;
 
             surfacesProp        = null;
         }
@@ -47,6 +50,8 @@ namespace Chisel.Editors
                 var pathProp		= definitionProp.FindPropertyRelative(nameof(ChiselExtrudedShape.definition.path));
                 pathSegmentsProp	= pathProp.FindPropertyRelative(nameof(ChiselExtrudedShape.definition.path.segments));
 
+                curvyExtrusionProp  = definitionProp.FindPropertyRelative(nameof(ChiselExtrudedShape.definition.curvyExtrusion));
+
                 var surfDefProp     = definitionProp.FindPropertyRelative(nameof(ChiselExtrudedShape.definition.surfaceDefinition));
                 {
                     surfacesProp    = surfDefProp.FindPropertyRelative(nameof(ChiselExtrudedShape.definition.surfaceDefinition.surfaces));
@@ -56,8 +61,9 @@ namespace Chisel.Editors
         
         protected override void OnInspector()
         { 
-            EditorGUILayout.PropertyField(controlPointsProp, kShapeContent, true);
-            EditorGUILayout.PropertyField(pathSegmentsProp,  kPathContent,  true);
+            EditorGUILayout.PropertyField(controlPointsProp,  kShapeContent,     true);
+            EditorGUILayout.PropertyField(pathSegmentsProp,   kPathContent,      true);
+            EditorGUILayout.PropertyField(curvyExtrusionProp, kCurveExtContent,  true);
 
             ShowSurfaces(surfacesProp);
         }

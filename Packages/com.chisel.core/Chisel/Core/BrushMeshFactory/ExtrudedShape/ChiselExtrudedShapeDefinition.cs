@@ -22,6 +22,7 @@ namespace Chisel.Core
         public Curve2D                  shape;
         public ChiselPath               path;
         public int                      curveSegments;
+        public bool                     curvyExtrusion;
         
         public ChiselSurfaceDefinition  surfaceDefinition;
         
@@ -30,6 +31,7 @@ namespace Chisel.Core
             curveSegments   = kDefaultCurveSegments;
             path			= new ChiselPath(ChiselPath.Default);
             shape			= new Curve2D(kDefaultShape);
+            curvyExtrusion  = false;
             
             if (surfaceDefinition != null) surfaceDefinition.Reset();
         }

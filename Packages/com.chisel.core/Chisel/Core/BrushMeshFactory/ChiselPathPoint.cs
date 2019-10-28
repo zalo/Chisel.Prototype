@@ -43,7 +43,7 @@ namespace Chisel.Core
         [EulerValue   ] public Quaternion   rotation;
         [ScaleValue   ] public Vector2      scale;
         
-        static Matrix4x4 ToMatrix(Vector3 position, Quaternion rotation, Vector2 scale)
+        public static Matrix4x4 ToMatrix(Vector3 position, Quaternion rotation, Vector2 scale)
         {
             return	Matrix4x4.TRS(position, rotation, Vector3.one) *
                     swizzleYZ *

@@ -41,6 +41,18 @@ namespace Chisel.Components
                 OnValidateInternal();
             }
         }
+
+        public bool CurvyExtrusion {
+            get { return definition.curvyExtrusion; }
+            set {
+                if (value == definition.curvyExtrusion)
+                    return;
+
+                definition.curvyExtrusion = value;
+
+                OnValidateInternal();
+            }
+        }
         #endregion
     }
 }
