@@ -72,7 +72,7 @@ namespace UnitySceneExtensions
                         s_StartPoints = points.ToArray();
                             
                         var localToWorldMatrix	= UnityEditor.Handles.matrix;
-                        var	center				= Grid.ActiveGrid.Center;
+                        var center              = handleOrigin;
                         Matrix4x4 gridSpace = Matrix4x4.identity;
                         gridSpace.SetColumn(0, localToWorldMatrix.MultiplyVector(slideDir1).normalized);
                         gridSpace.SetColumn(1, localToWorldMatrix.MultiplyVector(handleNormal).normalized);
