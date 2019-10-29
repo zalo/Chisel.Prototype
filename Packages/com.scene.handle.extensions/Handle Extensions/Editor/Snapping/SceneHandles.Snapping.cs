@@ -489,7 +489,7 @@ namespace UnitySceneExtensions
         public SnapResult3D	SnapResult				{ get { return snapResult; } }
 
         
-        public void Initialize(Grid worldSlideGrid, Vector2 currentGUIPosition, Vector3 localSlideOrigin, Matrix4x4 localToWorldMatrix)
+        public void Initialize(Grid worldSlideGrid, Vector2 currentGUIPosition, Vector3 localSlideOrigin, Matrix4x4 localToWorldMatrix, bool postTranslate = true)
         {
             this.localToWorldMatrix		= localToWorldMatrix;			
             this.worldSlidePosition		= this.worldSlideOrigin;
@@ -503,7 +503,9 @@ namespace UnitySceneExtensions
             this.worldSnappedPosition	= worldSlideOrigin;
             
             this.worldSlidePlane		= this.worldSlideGrid.PlaneXZ;
-            
+            if(postTranslate)
+                this.worldSlidePlane.Translate(-this.worldSlideOrigin);
+
             this.snapResult				= SnapResult3D.None;
 
             GetPlaneIntersection(currentGUIPosition, out startWorldPlanePosition);

@@ -92,7 +92,7 @@ namespace Chisel.Editors
                     s_Transform = Matrix4x4.TRS(surfaceGridCenter - activeGridCenter, activeGridToSurfaceGridRotation, Vector3.one) * 
                                                 UnitySceneExtensions.Grid.ActiveGrid.GridToWorldSpace;
                     s_InvTransform = s_Transform.inverse;
-                    s_Snapping2D.Initialize(new UnitySceneExtensions.Grid(s_Transform), mousePosition, s_StartIntersection.point, UnityEditor.Handles.matrix);
+                    s_Snapping2D.Initialize(new UnitySceneExtensions.Grid(s_Transform), mousePosition, s_StartIntersection.point, UnityEditor.Handles.matrix, false);
                 }
             }
 
