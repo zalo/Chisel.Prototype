@@ -76,20 +76,16 @@ namespace Chisel.Core
                         (subSegments & 1) == 1)
                         subSegments += 1;
 
-                    Matrix4x4 translationOnly = ChiselPathPoint.ToMatrix(path.segments[s + 1].position,
-                                                                         path.segments[s    ].rotation,
-                                                                         path.segments[s    ].scale);
-                    Matrix4x4 correction = path.segments[s + 1].ToMatrix() * translationOnly.inverse;
                     for (int n = 0; n < subSegments; n++)
                     {
                         Matrix4x4 matrix0, matrix1;
                         if (!definition.curvyExtrusion) {
-                            matrix0 = ChiselPathPoint.Lerp(ref path.segments[s], ref path.segments[s + 1],       n / (float)subSegments);
-                            matrix1 = ChiselPathPoint.Lerp(ref path.segments[s], ref path.segments[s + 1], (n + 1) / (float)subSegments);
+                            matrix0 = ChiselPathPoint.Lerp       (ref path.segments[s], ref path.segments[s + 1],       n / (float)subSegments);
+                            matrix1 = ChiselPathPoint.Lerp       (ref path.segments[s], ref path.segments[s + 1], (n + 1) / (float)subSegments);
                         }
                         else {
-                            matrix0 = MathExtensions.Lerp(Matrix4x4.identity, correction,       n / (float)subSegments) * MathExtensions.Lerp(path.segments[s].ToMatrix(), translationOnly,       n / (float)subSegments);
-                            matrix1 = MathExtensions.Lerp(Matrix4x4.identity, correction, (n + 1) / (float)subSegments) * MathExtensions.Lerp(path.segments[s].ToMatrix(), translationOnly, (n + 1) / (float)subSegments);
+                            matrix0 = ChiselPathPoint.CubicBezier(ref path.segments[s], ref path.segments[s + 1],       n / (float)subSegments);
+                            matrix1 = ChiselPathPoint.CubicBezier(ref path.segments[s], ref path.segments[s + 1], (n + 1) / (float)subSegments);
                         }
 
                         // TODO: this doesn't work if top and bottom polygons intersect

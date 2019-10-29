@@ -27,22 +27,25 @@ namespace Chisel.Core
 
         public ChiselPathPoint(Vector3 position, Quaternion rotation, Vector3 scale)
         {
-            this.position	= position;
-            this.rotation	= rotation;
-            this.scale		= scale;
+            this.position	  = position;
+            this.rotation	  = rotation;
+            this.scale		  = scale;
+            this.handleLength = Vector2.one;
         }
         
         public ChiselPathPoint(Vector3 position)
         {
-            this.position	= position;
-            this.rotation	= Quaternion.identity;
-            this.scale		= Vector3.one;
+            this.position	  = position;
+            this.rotation	  = Quaternion.identity;
+            this.scale	  	  = Vector3.one;
+            this.handleLength = Vector2.one;
         }
 
         [PositionValue] public Vector3      position;
         [EulerValue   ] public Quaternion   rotation;
         [ScaleValue   ] public Vector2      scale;
-        
+        [ScaleValue   ] public Vector2      handleLength;
+
         public static Matrix4x4 ToMatrix(Vector3 position, Quaternion rotation, Vector2 scale)
         {
             return	Matrix4x4.TRS(position, rotation, Vector3.one) *
@@ -59,8 +62,14 @@ namespace Chisel.Core
         {
             var position = MathExtensions.Lerp(A.position, B.position, t);
             var rotation = MathExtensions.Lerp(A.rotation, B.rotation, t);
-            var scale    = MathExtensions.Lerp(A.scale, B.scale, t);
+            var scale    = MathExtensions.Lerp(A.scale,    B.scale,    t);
             return ToMatrix(position, rotation, scale);
+        }
+
+        public static Matrix4x4 CubicBezier(ref ChiselPathPoint A, ref ChiselPathPoint B, float t) {
+            Matrix4x4 C1 = ToMatrix(A.position + (A.rotation * Vector3.up   * A.handleLength.y), A.rotation, A.scale);
+            Matrix4x4 C2 = ToMatrix(B.position + (B.rotation * Vector3.down * B.handleLength.x), B.rotation, B.scale);
+            return MathExtensions.CubicBezier(A.ToMatrix(), C1, C2, B.ToMatrix(), t);
         }
     }
 

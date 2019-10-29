@@ -161,6 +161,15 @@ namespace Chisel.Core
                                  Vector3.Lerp(a.lossyScale,      b.lossyScale,      alpha));
         }
 
+        public static Matrix4x4 CubicBezier(Matrix4x4 A, Matrix4x4 C1, Matrix4x4 C2, Matrix4x4 B, float alpha) {
+            Matrix4x4 L1 = Lerp( A, C1, alpha);
+            Matrix4x4 L2 = Lerp(C1, C2, alpha);
+            Matrix4x4 L3 = Lerp(C2,  B, alpha);
+            Matrix4x4 L4 = Lerp(L1, L2, alpha);
+            Matrix4x4 L5 = Lerp(L2, L3, alpha);
+            return Lerp(L4, L5, alpha);
+        }
+
         // Transforms a plane by this matrix.
         public static Plane InverseTransform(this Matrix4x4 matrix, Plane plane)
         {
