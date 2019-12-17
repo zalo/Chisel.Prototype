@@ -53,14 +53,15 @@ namespace Chisel.Components
 
         public static void ForceUpdateDelayedUVGeneration()
         {
+#if UNITY_EDITOR
             haveUVsToUpdate = true;
+#endif
         }
 
         public static bool NeedUVGeneration(ChiselModel model)
         {
-            haveUVsToUpdate = false;
-
 #if UNITY_EDITOR
+            haveUVsToUpdate = false;
             if (!model)
                 return false;
 

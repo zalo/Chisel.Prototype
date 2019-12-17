@@ -81,8 +81,8 @@ namespace Chisel.Components
             motionVectorGenerationMode		= MotionVectorGenerationMode.Object;
             reflectionProbeUsage			= ReflectionProbeUsage.BlendProbes;
             lightProbeUsage					= LightProbeUsage.Off;
-            dynamicOccludee					= true;
 #if UNITY_EDITOR
+            dynamicOccludee					= true;
 //			lightmapParameters				= new UnityEditor.LightmapParameters();
             importantGI						= false;
             optimizeUVs						= false;
